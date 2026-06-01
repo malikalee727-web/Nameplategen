@@ -1,0 +1,6 @@
+{
+  "name": "Sticker Sheet Compiler",
+  "description": "Compile names from spreadsheets, text databases, or copy-paste directly onto dark carbon-styled cards or custom uploaded sticker layouts in a perfect grid.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
