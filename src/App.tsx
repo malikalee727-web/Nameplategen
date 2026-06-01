@@ -76,17 +76,25 @@ export default function App() {
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <h1 className="text-base font-semibold tracking-tight">Sticker Sheet Compiler</h1>
+              <h1 className="text-base font-semibold tracking-tight">
+                NameGen Project <span className="text-teal-400 font-normal">By AleeXstudio</span>
+              </h1>
               <span className="text-[10px] bg-teal-500/10 text-teal-400 px-1.5 py-0.5 rounded-full font-semibold border border-teal-500/20 uppercase tracking-widest">v1.2</span>
             </div>
             <p className="text-[11px] text-zinc-400">Compile names from spreadsheets directly onto grid sticker cards</p>
           </div>
         </div>
 
-        {/* Humid workspace local coordinate */}
-        <div className="hidden sm:flex items-center gap-1.5 text-zinc-400 text-xs font-mono">
-          <Sparkles size={13} className="text-yellow-400" />
-          <span>Layout Engine: Active</span>
+        {/* Owner & Engine Information */}
+        <div className="flex items-center gap-4">
+          <div className="hidden sm:flex flex-col items-end text-xs font-sans">
+            <span className="text-[9px] uppercase tracking-wider text-zinc-500 font-semibold font-mono">Owner</span>
+            <span className="font-semibold text-zinc-200">Waleed Khan Afridi</span>
+          </div>
+          <div className="hidden sm:flex items-center gap-1.5 text-zinc-400 text-xs font-mono bg-zinc-850 px-3 py-1.5 rounded-lg border border-zinc-800 shadow-inner">
+            <Sparkles size={13} className="text-yellow-400 animate-pulse" />
+            <span>Layout Engine: Active</span>
+          </div>
         </div>
       </header>
 

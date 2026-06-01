@@ -1007,7 +1007,16 @@ export default function LabelPreview({
       )}
 
       {/* 3. Central Canvas Sheet Workspace */}
-      <div className="w-full flex justify-center bg-zinc-100 rounded-2xl border border-zinc-200 p-6 md:p-8 overflow-auto min-h-[400px]">
+      <div 
+        className="w-full flex justify-center rounded-2xl border border-zinc-200 p-6 md:p-8 overflow-auto min-h-[400px]"
+        style={{
+          backgroundImage: "url('https://images.unsplash.com/photo-1506318137071-a8e063b4bec0?auto=format&fit=crop&w=1920&q=80')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat"
+        }}
+        id="central-canvas-workspace"
+      >
         <div className="shrink-0 transition-transform duration-200 hover:scale-[1.002]">
           {items.length === 0 ? (
             <div className="text-center py-20 px-8 flex flex-col items-center justify-center gap-3 max-w-sm">
