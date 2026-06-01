@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { 
   FileSpreadsheet, Sliders, Eye, RefreshCw, Sparkles, 
-  Settings, HelpCircle, HardDriveUpload 
+  Settings, HelpCircle, HardDriveUpload, Smartphone
 } from "lucide-react";
 import { LabelItem, LabelStyle, GridConfig } from "./types";
 import { DEFAULT_STYLE, DEFAULT_GRID, SAMPLE_NAMES } from "./constants";
@@ -9,6 +9,7 @@ import ExcelLoader from "./components/ExcelLoader";
 import LogoNameMapper from "./components/LogoNameMapper";
 import LabelCustomizer from "./components/LabelCustomizer";
 import LabelPreview from "./components/LabelPreview";
+import ApkDownloadSection from "./components/ApkDownloadSection";
 
 export default function App() {
   // Precompile initial sample data based on target schema
@@ -70,9 +71,14 @@ export default function App() {
       
       {/* 1. Header Navigation Bar (Human Descriptive & Styled) */}
       <header className="bg-zinc-900 text-white shrink-0 border-b border-zinc-800 py-4 px-6 no-print flex items-center justify-between shadow-sm">
-        <div className="flex items-center gap-2.5">
-          <div className="p-2 bg-zinc-800 text-teal-400 rounded-lg shrink-0">
-            <FileSpreadsheet size={20} className="animate-pulse" />
+        <div className="flex items-center gap-2.5 flex-nowrap">
+          <div className="p-0.5 bg-zinc-800 rounded-lg shrink-0 overflow-hidden border border-zinc-700/50 flex items-center justify-center">
+            <img 
+              src="/src/assets/images/isi_markhor_logo_1780354652694.png" 
+              alt="NameGen ISI Markhor Logo" 
+              className="w-9 h-9 object-cover rounded-md"
+              referrerPolicy="no-referrer"
+            />
           </div>
           <div>
             <div className="flex items-center gap-2">
@@ -87,6 +93,15 @@ export default function App() {
 
         {/* Owner & Engine Information */}
         <div className="flex items-center gap-4">
+          <a
+            href="/NameGen.apk"
+            download="NameGen.apk"
+            className="flex items-center gap-1.5 bg-teal-500/10 hover:bg-teal-500/25 text-teal-400 hover:text-teal-300 text-xs font-semibold px-3 py-2 rounded-lg border border-teal-500/20 shadow-sm transition-all duration-200 active:scale-95 animate-pulse"
+            title="Download NameGen Companion App APK with one-click"
+          >
+            <Smartphone size={13} className="text-teal-400" />
+            <span>Download APK</span>
+          </a>
           <div className="hidden sm:flex flex-col items-end text-xs font-sans">
             <span className="text-[9px] uppercase tracking-wider text-zinc-500 font-semibold font-mono">Owner</span>
             <span className="font-semibold text-zinc-200">Waleed Khan Afridi</span>
@@ -102,7 +117,15 @@ export default function App() {
       <main className="flex-1 flex flex-col lg:flex-row overflow-hidden no-print">
         
         {/* Left Side: Parameters, file loaders, adjustments drawer */}
-        <section className="w-full lg:w-[410px] bg-zinc-50 border-r border-zinc-200 overflow-y-auto p-5 space-y-5 lg:h-[calc(100vh-68px)]">
+        <section 
+          className="w-full lg:w-[410px] border-r border-zinc-200 overflow-y-auto p-5 space-y-5 lg:h-[calc(100vh-68px)]"
+          style={{
+            backgroundImage: "linear-gradient(to bottom, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.92)), url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1000&q=80')",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            backgroundAttachment: "local"
+          }}
+        >
           
           {/* A. Group header */}
           <div className="flex items-center gap-2">
@@ -145,6 +168,7 @@ export default function App() {
             setSheetOverlayMode={setSheetOverlayMode}
           />
 
+          <ApkDownloadSection />
         </section>
 
         {/* Right Side: High fidelity canvas preview page workspace */}
