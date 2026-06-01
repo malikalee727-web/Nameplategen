@@ -64,6 +64,7 @@ export interface LabelItem {
   customLogoScale?: number;   // Specific individual logo scale multiplier (0.5 to 3.0, default 1.0)
   customLogoPosition?: "left" | "right" | "both";
   customNameStyleVariety?: "standard" | "stylish" | "neon-glow" | "gold-foil" | "vintage-shadow" | "modern-outline" | "underlined";
+  customFontFamily?: string;  // Custom font selection from Google library (e.g. "Playfair Display", "Lobster", "Orbitron")
 }
 
 export interface TemplatePreset {

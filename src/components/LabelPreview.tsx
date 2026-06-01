@@ -23,7 +23,8 @@ const calculateFitFontSize = (
     const fontName = fontFamily === "font-sans" ? "Inter" : 
                      fontFamily === "font-display" ? "Space Grotesk" :
                      fontFamily === "font-serif" ? "Playfair Display" :
-                     fontFamily === "font-mono" ? "JetBrains Mono" : "Montserrat";
+                     fontFamily === "font-mono" ? "JetBrains Mono" : 
+                     fontFamily === "font-montserrat" ? "Montserrat" : fontFamily;
 
     let weight = "normal";
     if (fontWeight === "font-bold") weight = "bold";
@@ -84,7 +85,8 @@ interface LabelPreviewProps {
     newLogoUrl?: string,
     newLogoScale?: number,
     newLogoPosition?: "left" | "right" | "both",
-    newNameStyleVariety?: "standard" | "stylish" | "neon-glow" | "gold-foil" | "vintage-shadow" | "modern-outline" | "underlined"
+    newNameStyleVariety?: "standard" | "stylish" | "neon-glow" | "gold-foil" | "vintage-shadow" | "modern-outline" | "underlined",
+    newFontFamily?: string
   ) => void;
 }
 
@@ -107,6 +109,7 @@ export default function LabelPreview({
   const [editLogoScale, setEditLogoScale] = useState<number>(1.0);
   const [editLogoPosition, setEditLogoPosition] = useState<"left" | "right" | "both">("left");
   const [editNameStyleVariety, setEditNameStyleVariety] = useState<"standard" | "stylish" | "neon-glow" | "gold-foil" | "vintage-shadow" | "modern-outline" | "underlined">("standard");
+  const [editFontFamily, setEditFontFamily] = useState<string>("");
   const [isDownloading, setIsDownloading] = useState(false);
 
   // Divide items based on sheet settings
@@ -216,6 +219,7 @@ export default function LabelPreview({
     setEditLogoScale(item.customLogoScale || 1.0);
     setEditLogoPosition(item.customLogoPosition || "left");
     setEditNameStyleVariety(item.customNameStyleVariety || "standard");
+    setEditFontFamily(item.customFontFamily || "");
   };
 
   const saveEditing = () => {
@@ -229,7 +233,8 @@ export default function LabelPreview({
         editLogoUrl, 
         editLogoScale,
         editLogoPosition,
-        editNameStyleVariety
+        editNameStyleVariety,
+        editFontFamily
       );
       setEditingItemId(null);
     }
@@ -436,10 +441,12 @@ export default function LabelPreview({
 
         // Draw Text Contents if item exists
         if (item) {
-          const fontName = style.nameFontFamily === "font-sans" ? "Inter" : 
-                           style.nameFontFamily === "font-display" ? "Space Grotesk" :
-                           style.nameFontFamily === "font-serif" ? "Playfair Display" :
-                           style.nameFontFamily === "font-mono" ? "JetBrains Mono" : "Montserrat";
+          const fontName = item.customFontFamily 
+            ? item.customFontFamily 
+            : (style.nameFontFamily === "font-sans" ? "Inter" : 
+               style.nameFontFamily === "font-display" ? "Space Grotesk" :
+               style.nameFontFamily === "font-serif" ? "Playfair Display" :
+               style.nameFontFamily === "font-mono" ? "JetBrains Mono" : "Montserrat");
 
           // Draw header (small access status message) - sleek, neat top header text
           if (style.showHeader) {
@@ -481,10 +488,10 @@ export default function LabelPreview({
           if (style.fitToCard) {
             const maxAllowedWidth = cardW - grid.paddingX * 2;
             const logoPadding = hasLogo ? (canvasFontSize * 1.0 * itemLogoScale * globalLogoScale * logoPaddingMultiplier + (itemLogoPosition === "both" ? 16 : 8)) : 0;
-            canvasFontSize = calculateFitFontSize(displayName, maxAllowedWidth - logoPadding, itemNameStyleVariety === "stylish" ? "font-serif" : style.nameFontFamily, style.nameFontWeight, style.nameFontSize);
+            canvasFontSize = calculateFitFontSize(displayName, maxAllowedWidth - logoPadding, item.customFontFamily || (itemNameStyleVariety === "stylish" ? "font-serif" : style.nameFontFamily), style.nameFontWeight, style.nameFontSize);
           }
           
-          const activeFontFamily = itemNameStyleVariety === "stylish" ? "Playfair Display" : fontName;
+          const activeFontFamily = item.customFontFamily ? item.customFontFamily : (itemNameStyleVariety === "stylish" ? "Playfair Display" : fontName);
           const fontStyleModifier = itemNameStyleVariety === "stylish" ? "italic " : "";
           
           ctx.font = `${fontStyleModifier}${weightPrefix} ${canvasFontSize}px ${activeFontFamily}, sans-serif`;
@@ -751,7 +758,7 @@ export default function LabelPreview({
                 cardFontSize = calculateFitFontSize(
                   nameString,
                   Math.max(50, maxAllowedWidth),
-                  itemNameStyleVariety === "stylish" ? "font-serif" : style.nameFontFamily,
+                  item.customFontFamily || (itemNameStyleVariety === "stylish" ? "font-serif" : style.nameFontFamily),
                   style.nameFontWeight,
                   style.nameFontSize
                 );
@@ -838,12 +845,13 @@ export default function LabelPreview({
                         
                         <span 
                           className={`whitespace-nowrap overflow-hidden text-ellipsis ${
-                            itemNameStyleVariety === "stylish" ? "font-serif italic" : style.nameFontFamily
+                            item.customFontFamily ? "" : (itemNameStyleVariety === "stylish" ? "font-serif italic" : style.nameFontFamily)
                           } ${style.nameFontWeight}`}
                           style={{
                             fontSize: `${cardFontSize}px`,
                             textTransform: style.nameCase === "uppercase" ? "uppercase" : style.nameCase === "lowercase" ? "lowercase" : "none",
                             letterSpacing: style.nameLetterSpacing === "tracking-widest" ? "0.15em" : style.nameLetterSpacing === "tracking-wider" ? "0.08em" : "0.01em",
+                            ...(item.customFontFamily ? { fontFamily: item.customFontFamily } : {}),
                             
                             // Text Variety Styles mapping:
                             ...(itemNameStyleVariety === "standard" ? {
@@ -1233,6 +1241,32 @@ export default function LabelPreview({
                       <option value="vintage-shadow">Classy Drop Shadow 🕶️</option>
                       <option value="modern-outline">Hollow Outline 💎</option>
                       <option value="underlined">Elegant Underline ✒️</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="block text-[10px] font-bold text-zinc-500 uppercase tracking-wider mb-1">Individual Font Typography</label>
+                    <select
+                      value={editFontFamily}
+                      onChange={(e) => setEditFontFamily(e.target.value)}
+                      className="w-full text-xs border border-zinc-200 rounded-lg p-2 focus:outline-none bg-white text-zinc-800 font-medium"
+                      style={{ fontFamily: editFontFamily || 'inherit' }}
+                    >
+                      <option value="">Default (Use General Sheet Standard)</option>
+                      <option value="Inter" style={{ fontFamily: "Inter" }}>Inter (Geometric Clean)</option>
+                      <option value="Space Grotesk" style={{ fontFamily: "Space Grotesk" }}>Space Grotesk (Tech Modern)</option>
+                      <option value="Playfair Display" style={{ fontFamily: "Playfair Display" }}>Playfair Display (Elegant Editorial)</option>
+                      <option value="JetBrains Mono" style={{ fontFamily: "JetBrains Mono" }}>JetBrains Mono (Developer Code)</option>
+                      <option value="Montserrat" style={{ fontFamily: "Montserrat" }}>Montserrat (Bold Geometric)</option>
+                      <option value="Cinzel" style={{ fontFamily: "Cinzel" }}>Cinzel (Classic Royal Roman)</option>
+                      <option value="Lobster" style={{ fontFamily: "Lobster" }}>Lobster (Stylish Cursive Script)</option>
+                      <option value="Pacifico" style={{ fontFamily: "Pacifico" }}>Pacifico (Retro Fun Script)</option>
+                      <option value="Orbitron" style={{ fontFamily: "Orbitron" }}>Orbitron (Sci-Fi Cyberpunk)</option>
+                      <option value="Bungee" style={{ fontFamily: "Bungee" }}>Bungee (Heavy Blocky Retro)</option>
+                      <option value="Great Vibes" style={{ fontFamily: "Great Vibes" }}>Great Vibes (Wedding Calligraphy)</option>
+                      <option value="Special Elite" style={{ fontFamily: "Special Elite" }}>Special Elite (Old Typewriter)</option>
+                      <option value="Creepster" style={{ fontFamily: "Creepster" }}>Creepster (Spooky Halloween)</option>
+                      <option value="Sacramento" style={{ fontFamily: "Sacramento" }}>Sacramento (Thin Elegant Quill)</option>
                     </select>
                   </div>
                 </div>

@@ -162,6 +162,25 @@ export default function ApkDownloadSection() {
           <span className="font-bold text-zinc-400 bg-zinc-800 px-1.5 py-0.5 rounded">SDK 34+ (Android 14)</span>
         </div>
 
+        {/* Dynamic Troubleshooting and PWA Info Panel */}
+        <div className="bg-red-950/20 border border-red-500/20 p-3 rounded-lg space-y-2 mt-2">
+          <p className="text-[11px] text-zinc-300 font-bold flex items-center gap-1.5">
+            <AlertCircle size={13} className="text-yellow-500" />
+            <span>APK Not Working or Getting "Parse Error"?</span>
+          </p>
+          <p className="text-[10px] leading-relaxed text-zinc-400">
+            Unsigned packages downloaded from browser environments can trigger security blocks on modern devices. Verify these 2 solutions:
+          </p>
+          <ul className="text-[10px] list-disc list-inside space-y-1.5 text-zinc-300 pl-1 font-sans">
+            <li>
+              <strong>Bypass Chrome Security Block:</strong> Tap downloaded APK &rarr; Go to Settings &rarr; enable <span className="text-teal-400 font-semibold">"Allow installation from unknown web sources"</span>, then temporarily toggle off Google Play Protect.
+            </li>
+            <li className="text-zinc-200">
+              ⚡ <strong>100% Working Native Alternative (No Installs Needed):</strong> We have added <span className="text-teal-400 font-bold">PWA install features</span>! Just open this page on your Android Chrome, tap the <span className="font-bold underline">"Add to Home Screen"</span> browser prompt, and it installs instantly as a native app with our custom logo!
+            </li>
+          </ul>
+        </div>
+
         {/* Toggleable Install Guide Drawer */}
         <div className="border-t border-zinc-800/80 pt-3">
           <button 
@@ -170,7 +189,7 @@ export default function ApkDownloadSection() {
           >
             <span className="flex items-center gap-1.5">
               <HelpCircle size={12} />
-              Android Installation Guide
+              Android Installation & Developer Guide
             </span>
             <ChevronRight 
               size={12} 
@@ -198,7 +217,7 @@ export default function ApkDownloadSection() {
                   Note: Tested on all modern Android devices.
                 </span>
                 <span className="text-zinc-400 block mt-1">
-                  Developer signature: <strong>AleeXstudio Team</strong>
+                  Developer signature: <strong>AleeXstudio Team</strong> via Waleed Khan Afridi
                 </span>
               </div>
             </div>

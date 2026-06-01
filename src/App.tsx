@@ -40,7 +40,8 @@ export default function App() {
     newLogoUrl?: string,
     newLogoScale?: number,
     newLogoPosition?: "left" | "right" | "both",
-    newNameStyleVariety?: "standard" | "stylish" | "neon-glow" | "gold-foil" | "vintage-shadow" | "modern-outline" | "underlined"
+    newNameStyleVariety?: "standard" | "stylish" | "neon-glow" | "gold-foil" | "vintage-shadow" | "modern-outline" | "underlined",
+    newFontFamily?: string
   ) => {
     setItems(prevItems => 
       prevItems.map(item => 
@@ -54,7 +55,8 @@ export default function App() {
               customLogoUrl: newLogoUrl,
               customLogoScale: newLogoScale,
               customLogoPosition: newLogoPosition,
-              customNameStyleVariety: newNameStyleVariety
+              customNameStyleVariety: newNameStyleVariety,
+              customFontFamily: newFontFamily
             }
           : item
       )
